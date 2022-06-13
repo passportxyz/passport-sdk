@@ -40,12 +40,12 @@ describe("when there is no passport for the given did", () => {
 
     const storedPassport = (await passportWriter.loader.load(actualPassportStreamID)).content;
 
-    const formattedDate = new Date(storedPassport["issuanceDate"]);
+    const formattedDate = new Date(storedPassport["issuanceDate"] as string);
     const todaysDate = new Date();
 
-    expect(formattedDate.getDay).toEqual(todaysDate.getDay);
-    expect(formattedDate.getMonth).toEqual(todaysDate.getMonth);
-    expect(formattedDate.getFullYear).toEqual(todaysDate.getFullYear);
+    expect(formattedDate.getDay()).toEqual(todaysDate.getDay());
+    expect(formattedDate.getMonth()).toEqual(todaysDate.getMonth());
+    expect(formattedDate.getFullYear()).toEqual(todaysDate.getFullYear());
     expect(storedPassport["stamps"]).toEqual([]);
   });
 
@@ -196,12 +196,11 @@ describe("when there is an existing passport with stamps for the given did", () 
     const actualPassport = await passportWriter.getPassport();
 
     const formattedDate = new Date(actualPassport["issuanceDate"]);
-    const todaysDate = new Date();
 
     expect(actualPassport).toBeDefined();
-    expect(formattedDate.getDay).toEqual(todaysDate.getDay);
-    expect(formattedDate.getMonth).toEqual(todaysDate.getMonth);
-    expect(formattedDate.getFullYear).toEqual(todaysDate.getFullYear);
+    expect(formattedDate.getDay()).toEqual(existingPassport.issuanceDate.getDay());
+    expect(formattedDate.getMonth()).toEqual(existingPassport.issuanceDate.getMonth());
+    expect(formattedDate.getFullYear()).toEqual(existingPassport.issuanceDate.getFullYear());
     expect(actualPassport.stamps[0]).toEqual(ensStampFixture);
   });
 
