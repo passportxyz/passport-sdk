@@ -50,12 +50,12 @@ The `PassportReader` instance exposes read-only methods to get the content of a 
 <br/>
 
 
-- `getGenesis` - pass in a wallet address and get back the did:pkh and genesis IDX streams
+- `getGenesis` - pass in an Ethereum address and get back the did:pkh and genesis IDX streams
 ```
 reader.getGenesis(address: string): Promise<CeramicGenesis | false>
 ```
 
-- `getPassport` - pass in a walet address and get back a fully hydrated Passport record
+- `getPassport` - pass in an Ethereum address and get back a fully hydrated Passport record
 ```
 reader.getPassport(address: string): Promise<CeramicPassport | CeramicCredentialPassport | false>
 ```
