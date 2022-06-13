@@ -1,0 +1,11 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/reader" },
+    { "path": "packages/scorer" },
+    { "path": "packages/types" },
+    { "path": "packages/verifier" },
+    { "path": "packages/writer" },
+  ],
+  "exclude": ["node_modules"]
+}
