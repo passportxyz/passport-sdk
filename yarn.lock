@@ -5203,7 +5203,7 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
-hash.js@1.1.7, hash.js@^1.0.0, hash.js@^1.0.3, hash.js@^1.1.7:
+hash.js@1.1.7, hash.js@^1.0.0, hash.js@^1.0.3:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/hash.js/-/hash.js-1.1.7.tgz#0babca538e8d4ee4a0f8988d68866537a003cf42"
   integrity sha512-taOaskGt4z4SOANNseOviYDvjEJinIkRgmp7LbKP2YTTmVxWBl87s/uzK9r+44BclBSp2X7K1hqeNfz9JbBeXA==
@@ -8975,14 +8975,10 @@ tsutils@^3.21.0:
   dependencies:
     tslib "^1.8.1"
 
-tulons@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/tulons/-/tulons-0.0.4.tgz#476adf8dfca2a42aace8f9f3b116be2681870cc8"
-  integrity sha512-Osxp1T7p8+zg7W9HKkAeZTCjtkIYUYMaPJh2wVbaPIXxNwOrOxXBRnAhfn8K1olm49LoDVL87+U2t67iopV5xg==
-  dependencies:
-    "@ipld/dag-cbor" "^7.0.1"
-    hash.js "^1.1.7"
-    multiformats "^9.5.8"
+tulons@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/tulons/-/tulons-0.0.5.tgz#6ccf99567a69094bf75135d7f54e46e27cf0ab96"
+  integrity sha512-ZQ4OrqtRm3ZVDwh2dg7Jbsd2nVJKqEHd05Y2L0yqzvGdmRH6a+N7Bf5mMBp5LezQ8L1xpOWkzJ03MDCQU3ITIw==
 
 tunnel-agent@^0.6.0:
   version "0.6.0"
