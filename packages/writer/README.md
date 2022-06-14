@@ -1,31 +1,225 @@
 # Gitcoin Passport SDK: Writer
 
-## Explain how to set up react with ceramic provider and pass in the connection?
+Create, read, and update Gitcoin Passport
 
+## Basic Usage
+
+```javascript
+  import {DID} from "dids";
+import {EthereumAuthProvider} from "@3id/connect";
+
+...
+
+// connect to wallet somehow
+const provider = wallet.provider;
+const address = wallet.accounts[0];
+
+// Create and authenticate a DID
+const testDID = new DID({
+    provider: new EthereumAuthProvider(provider, address),
+});
+await testDID.authenticate();
+
+// Construct a writer
+const passportWriter = new PassportWriter(testDID);
+
+// Create a Passport belonging to testDID
+const passportStreamID = await passportWriter.createPassport();
+
+// Get the Passport by Stream ID
+const passport = (await passportWriter.loader.load(passportStreamID)).content;
+
+// Get the Passport belonging to testDID
+const testDIDPassport = await passportWriter.getPassport();
+
+// Add a stamp to the Passport belonging to testDID
+const newStamp = {
+    provider: "An Identity Provider",
+    credential: {...a Verifiable Credential...}
+};
+await passportWriter.addStamp(newStamp);
 ```
 
-  import { DID } from "dids";
-  import { EthereumAuthProvider } from "@3id/connect";
+## Ceramic React Framework & Self.ID SDK
 
-  ...
-  
-  // connect to wallet somehow
-  const provider = wallet.provider;
-  const address = wallet.accounts[0];
+[Ceramic Framework Documentation](https://developers.ceramic.network/reference/self-id/modules/framework)
 
-  // Create and authenticate a DID
-  const testDID = new DID({
-    provider: new EthereumAuthProvider(provider, address),
+### Configure the Ceramic Provider
+
+The Provider component must be added at the root of the application tree in order to use the hooks described below. It
+can be used to provide a custom configuration for the Self.ID clients, authentication, state and UI options.
+
+```javascript
+import {Provider} from '@self.id/framework'
+
+function App({children}) {
+    return <Provider client={{ceramic: 'testnet-clay'}} session={true}>{children}</Provider>
+}
+```
+
+### useViewerConnection Hook
+
+Set up useViewerConnection hook to retrieve a user's authenticated DID.
+
+```javascript
+import {useViewerConnection} from "@self.id/framework";
+
+const [viewerConnection, connectCeramic, disconnectCeramic] = useViewerConnection();
+
+// connect to wallet somehow
+const provider = wallet.provider;
+const address = wallet.accounts[0];
+
+connectCeramic(new EthereumAuthProvider(provider, address));
+
+useEffect(() => {
+    switch (viewerConnection.status) {
+        case "idle": {
+            // not connected yet
+            break;
+        }
+        case "connected": {
+            // user connected - construct a writer authenticated by user's DID
+            const passportWriter = new PassportWriter(viewerConnection.selfID.did);
+            // ... do stuff with passport writer ...
+            break;
+        }
+        case "failed": {
+            // user refused to connect or authenticate to ceramic
+            break;
+        }
+        default:
+            break;
+    }
+}, [viewerConnection.status]);
+```
+
+## Verifiable Credentials
+
+### Requesting Verifiable Credentials from Gitcoin IAM
+
+```typescript
+export const fetchVerifiableCredential = async (
+  iamUrl: string = "https://passport-iam.gitcoin.co",
+  payload: RequestPayload,
+  signer: { signMessage: (message: string) => Promise<string> } | undefined
+): Promise<VerifiableCredentialRecord> => {
+  // must provide signature for message
+  if (!signer) {
+    throw new Error("Unable to sign message without a signer");
+  }
+
+  // first pull a challenge that can be signed by the user
+  const {challenge} = await fetchChallengeCredential(iamUrl, payload);
+
+  // sign the challenge provided by the IAM
+  const signature = challenge.credentialSubject.challenge
+    ? (await signer.signMessage(challenge.credentialSubject.challenge)).toString()
+    : "";
+
+  // must provide signature for message
+  if (!signature) {
+    throw new Error("Unable to sign message");
+  }
+
+  // pass the signature as part of the proofs obj
+  payload.proofs = {...payload.proofs, ...{signature: signature}};
+
+  // fetch a credential from the API that fits the version, payload and passes the signature message challenge
+  const response: { data: CredentialResponseBody } = await axios.post(
+    `${iamUrl}/v${payload.version}/verify`,
+    {
+      payload,
+      challenge,
+    }
+  );
+
+  // return everything that was used to create the credential (along with the credential)
+  return {
+    signature,
+    challenge,
+    record: response.data.record,
+    credential: response.data.credential,
+  } as VerifiableCredentialRecord;
+};
+```
+
+### Issuing Your Own Verifiable Credentials
+
+Example with [SpruceID DIDKit](https://spruceid.dev/docs/didkit/)
+
+```typescript
+import * as DIDKit from "@spruceid/didkit-wasm-node";
+
+const key = process.env.ISSUER_KEY || DIDKit.generateEd25519Key();
+
+// Keeping track of the hashing mechanism (algo + content)
+export const VERSION = "v0.0.0";
+
+const issueCredential = async (
+  subjectAddress: string,
+  provider: string,
+  record: object,
+  expiresInSeconds: number,
+): Promise<VerifiableCredential> => {
+  // get DID from key
+  const issuer = DIDKit.keyToDID("key", key);
+  // read method from key
+  const verificationMethod = await DIDKit.keyToVerificationMethod("key", key);
+  // stringify assertionMethod we feed to didkit-wasm-node
+  const verifyWithMethod = JSON.stringify({
+    proofPurpose: "assertionMethod",
+    verificationMethod,
   });
-  await testDID.authenticate();
 
-  // Construct a writer
-  const passportWriter = new PassportWriter(testDID);
+  const issuanceDate = new Date();
+  const expirationDate = new Date();
+  expirationDate.setSeconds(issuanceDate.getSeconds() + expiresInSeconds);
 
-  // Create a Passport
-  const passportStreamID = await passportWriter.createPassport();
+  // Generate a hash like SHA256(IAM_PRIVATE_KEY+PII), where PII is the (deterministic) JSON representation
+  // of the PII object after transforming it to an array of the form [[key:string, value:string], ...]
+  // with the elements sorted by key
+  // This hash can be used to de-duplicate provider verifications without revealing PII
+  const hash = base64.encode(
+    createHash("sha256")
+      .update(key, "utf-8")
+      .update(JSON.stringify(objToSortedArray(record)))
+      .digest()
+  );
 
-  // Get the Passport
-  const passport = (await passportWriter.loader.load(passportStreamID)).content;
+  // generate a verifiableCredential
+  const credential = await DIDKit.issueCredential(
+    JSON.stringify({
+      "@context": ["https://www.w3.org/2018/credentials/v1"],
+      type: ["VerifiableCredential"],
+      issuer,
+      issuanceDate: issuanceDate.toISOString(),
+      expirationDate: expirationDate.toISOString(),
+      credentialSubject: {
+        "@context": [
+          {
+            hash: "https://schema.org/Text",
+            provider: "https://schema.org/Text",
+          },
+        ],
+        // construct a pkh DID on mainnet (:1) for the given wallet address
+        id: `did:pkh:eip155:1:${subjectAddress}`,
+        provider,
+        hash: `${VERSION}:${hash}`,
+      },
+    }),
+    verifyWithMethod,
+    key
+  );
 
+  // parse the response of the DIDKit wasm
+  return JSON.parse(credential) as VerifiableCredential;
+};
+
+const exampleVerifiableCredential = issueCredential(
+  "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
+  "Example Passport Writer",
+  {myRecord: "my value"},
+  600
+)
 ```
