@@ -19,7 +19,7 @@ import { TileLoader } from "@glazed/tile-loader";
 import { CeramicPassport, DataStorageBase, ModelTypes } from "./types";
 
 // Ceramic Testnet URL - must use with testnet passportModel
-const CERAMIC_CLIENT_TESTNET_URL = "https://ceramic.staging.dpopp.gitcoin.co";
+const CERAMIC_CLIENT_TESTNET_URL = "https://ceramic-clay.3boxlabs.com";
 
 // Ceramic Mainnet URL - must use with mainnet passportModel
 // const CERAMIC_CLIENT_MAINNET_URL = "https://ceramic.passport-iam.gitcoin.co";
