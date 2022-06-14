@@ -5,7 +5,7 @@ import logo from "./GitcoinLogo.svg";
 import "./App.css";
 
 // --- sdk import
-import PassportVerifier from '@gitcoinco/passport-sdk-verifier';
+import { PassportVerifier } from '@gitcoinco/passport-sdk-verifier';
 
 function App() {
   const [addressInput, setAddressInput] = useState("");
@@ -41,7 +41,7 @@ function App() {
           </form>
           {passport && (
               <div style={{ padding: 10, marginTop: 10, fontSize: 14, textAlign: "left" }}>
-                <h1 style={{ textAlign: "center" }}>Passport Data (w/ verified Status)</h1>
+                <h1 style={{ textAlign: "center" }}>Passport Stamps</h1>
                 {
                   // @ts-ignore
                     passport?.stamps?.length > 0 && (
