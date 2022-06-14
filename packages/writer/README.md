@@ -97,11 +97,13 @@ useEffect(() => {
 ## Verifiable Credentials
 
 ### Requesting Verifiable Credentials from Gitcoin IAM
+* Staging server `https://staging.dpopp.gitcoin.co`
+* Production server `https://passport-iam.gitcoin.co`
 
 ```typescript
 // Fetch a verifiable challenge credential to prove user owns their address
 export const fetchChallengeCredential = async (
-  iamUrl: string = "https://passport-iam.gitcoin.co",
+  iamUrl: string = "https://staging.dpopp.gitcoin.co",
   payload: RequestPayload
 ): Promise<IssuedChallenge> => {
   // fetch challenge as a credential from API that fits the version, address and type (this credential has a short ttl)
@@ -122,7 +124,7 @@ export const fetchChallengeCredential = async (
 
 // Fetch a verifiableCredential
 export const fetchVerifiableCredential = async (
-  iamUrl: string = "https://passport-iam.gitcoin.co",
+  iamUrl: string = "https://staging.dpopp.gitcoin.co",
   payload: RequestPayload,
   signer: { signMessage: (message: string) => Promise<string> } | undefined
 ): Promise<VerifiableCredentialRecord> => {

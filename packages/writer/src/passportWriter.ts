@@ -4,7 +4,8 @@
 import { DID, Passport, Stamp } from "@gitcoinco/passport-sdk-types";
 
 // -- Model
-import passportModel from "./passportModel.json";
+import testnetPassportModel from "./passportModel.testnet.json";
+// import mainnetPassportModel from "./passportModel.mainnet.json";
 
 // -- Ceramic and Glazed
 import type { CeramicApi } from "@ceramicnetwork/common";
@@ -17,7 +18,11 @@ import { TileLoader } from "@glazed/tile-loader";
 
 import { CeramicPassport, DataStorageBase, ModelTypes } from "./types";
 
-const CERAMIC_CLIENT_URL = "https://ceramic.passport-iam.gitcoin.co";
+// Ceramic Testnet URL - must use with testnet passportModel
+const CERAMIC_CLIENT_TESTNET_URL = "https://ceramic.staging.dpopp.gitcoin.co";
+
+// Ceramic Mainnet URL - must use with mainnet passportModel
+// const CERAMIC_CLIENT_MAINNET_URL = "https://ceramic.passport-iam.gitcoin.co";
 
 export class PassportWriter implements DataStorageBase {
   did: string;
@@ -28,14 +33,14 @@ export class PassportWriter implements DataStorageBase {
 
   constructor(did?: CeramicDID, ceramicHost?: string) {
     // Create the Ceramic instance and inject the DID
-    const ceramic = new CeramicClient(ceramicHost ?? CERAMIC_CLIENT_URL);
+    const ceramic = new CeramicClient(ceramicHost ?? CERAMIC_CLIENT_TESTNET_URL);
     ceramic.setDID(did).catch((e) => {
       console.error(e);
     });
 
     // Create the loader, model and store
     const loader = new TileLoader({ ceramic });
-    const model = new DataModel({ ceramic, aliases: passportModel });
+    const model = new DataModel({ ceramic, aliases: testnetPassportModel });
     const store = new DIDDataStore({ loader, ceramic, model });
 
     // Store the users did:pkh here to verify match on credential
