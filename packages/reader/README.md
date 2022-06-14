@@ -24,7 +24,7 @@ Build...
 yarn run build
 ```
 
-## Usage
+## Basic Usage
 
 Firstly, we need to import the library/bundle and construct a `PassportReader` instance, passing in a ceramic node URL and a networkId
 

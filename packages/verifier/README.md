@@ -24,9 +24,9 @@ Build...
 yarn run build
 ```
 
-## Usage
+## Basic Usage
 
-Firstly we need to import the library/bundle and construct a `PassportVerifier` instance.
+Firstly, we need to import the library/bundle and construct a `PassportVerifier` instance
 
 ```javascript
 // import as a module

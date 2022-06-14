@@ -2,6 +2,28 @@
 
 Create, read, and update Gitcoin Passport
 
+## Installation
+
+Add to your project...
+
+```bash
+yarn add @gitcoinco/passport-sdk-writer
+```
+
+--
+
+Or download this .git repository and install dependencies manually...
+
+```bash
+yarn install
+```
+
+Build...
+
+```bash
+yarn run build
+```
+
 ## Basic Usage
 
 ```javascript

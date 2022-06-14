@@ -24,9 +24,9 @@ Build...
 yarn run build
 ```
 
-## Usage
+## Basic Usage
 
-Firstly we need to import the library/bundle and construct a `PassportScorer` instance, passing in the scoring criteria, and optionally the ceramic node URL/networkId
+Firstly, we need to import the library/bundle and construct a `PassportScorer` instance, passing in the scoring criteria, and optionally the ceramic node URL/networkId
 
 ```javascript
 // import as a module
