@@ -6,7 +6,8 @@
     "packages/scorer",
     "packages/types",
     "packages/verifier",
-    "packages/writer"
+    "packages/writer",
+    "scaffold-eth-passport"
   ],
   "devDependencies": {
     "@commitlint/cli": "^16.2.3",

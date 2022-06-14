@@ -8,8 +8,8 @@
     "dist"
   ],
   "dependencies": {
-    "@gitcoinco/passport-sdk-reader": "^0.0.1",
-    "@gitcoinco/passport-sdk-types": "^0.0.1",
+    "@gitcoinco/passport-sdk-reader": "./../packages/reader",
+    "@gitcoinco/passport-sdk-types": "./../packages/types",
     "@spruceid/didkit-wasm": "^0.2.1"
   },
   "devDependencies": {
