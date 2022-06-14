@@ -99,6 +99,28 @@ useEffect(() => {
 ### Requesting Verifiable Credentials from Gitcoin IAM
 
 ```typescript
+// Fetch a verifiable challenge credential to prove user owns their address
+export const fetchChallengeCredential = async (
+  iamUrl: string = "https://passport-iam.gitcoin.co",
+  payload: RequestPayload
+): Promise<IssuedChallenge> => {
+  // fetch challenge as a credential from API that fits the version, address and type (this credential has a short ttl)
+  const response: { data: CredentialResponseBody } = await axios.post(
+    `${iamUrl}/v${payload.version}/challenge`,
+    {
+      payload: {
+        address: payload.address,
+        type: payload.type,
+      },
+    }
+  );
+
+  return {
+    challenge: response.data.credential,
+  } as IssuedChallenge;
+};
+
+// Fetch a verifiableCredential
 export const fetchVerifiableCredential = async (
   iamUrl: string = "https://passport-iam.gitcoin.co",
   payload: RequestPayload,
