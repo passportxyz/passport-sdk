@@ -75,8 +75,8 @@ function App() {
                   <ul>
                     {
                       // @ts-ignore
-                      passport?.stamps?.map((item) => {
-                        return <li>{item.provider}</li>;
+                      passport?.stamps?.map((item, index) => {
+                        return <li key={index}>{item.provider}</li>;
                       })
                     }
                   </ul>

@@ -1183,8 +1183,10 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@gitcoinco/passport-sdk-reader@./../../packages/reader":
-  version "0.0.1"
+"@gitcoinco/passport-sdk-reader@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@gitcoinco/passport-sdk-reader/-/passport-sdk-reader-0.1.0.tgz#9d359126e24c145e243609ee5265f26c6798cc4d"
+  integrity sha512-JJ7PeGprjWR74ZisDAtdxmenMrSUkeNtnDrajAN12gAUE6jWGKK75yC6QuWwiqNbASGiyRYlpauEnMwR6gSfPQ==
   dependencies:
     tulons "^0.0.5"
 
