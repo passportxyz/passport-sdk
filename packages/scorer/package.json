@@ -1,6 +1,6 @@
 {
   "name": "@gitcoinco/passport-sdk-scorer",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "license": "MIT",
   "main": "dist/scorer.js",
   "types": "dist/scorer.d.ts",
