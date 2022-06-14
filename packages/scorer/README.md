@@ -1,5 +1,7 @@
 # Gitcoin Passport SDK: Scorer
 
+Score the contents of a Gitcoin Passport
+
 ## Installation
 
 Add to your project...
@@ -57,6 +59,6 @@ The `PassportScorer` instance exposes read-only methods to score the content of 
 <br/>
 
 - `getScore` - pass in a wallet address and get back a score based on the instances scoring criteria and any additional checks
-```
+```typescript
 PassportScorer.getScore(address: string, passport?: Passport, additionalStampCheck?: (stamp: Stamp) => boolean): Promise<number>
 ```

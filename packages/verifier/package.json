@@ -1,7 +1,8 @@
 {
   "name": "@gitcoinco/passport-sdk-verifier",
   "version": "0.1.0",
-  "license": "MIT",
+  "license": "agpl-3.0",
+  "homepage": "https://github.com/gitcoinco/passport-sdk/tree/main/packages/verifier",
   "main": "dist/verifier.js",
   "types": "dist/verifier.d.ts",
   "files": [

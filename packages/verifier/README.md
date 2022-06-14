@@ -1,5 +1,7 @@
 # Gitcoin Passport SDK: Verifier
 
+Verify the contents of a Gitcoin Passport
+
 ## Installation
 
 Add to your project...
@@ -54,17 +56,17 @@ The `PassportVerifier` instance exposes read-only methods to verify the content 
 
 
 - `verifyPassport` - pass in a Passport and get back a Passport whose stamps contain a new field `verified: boolean`
-```
+```typescript
 PassportVerifier.verifyPassport(address: string, passport?: Passport, additionalStampCheck?: (stamp: Stamp) => boolean): Promise<Passport>
 ```
 
 - `verifyStamp` - pass in a Stamp and get back a Stamp with the `verified: boolean` field completed
-```
+```typescript
 PassportVerifier.verifyStamp(address: string, stamp: Stamp, additionalStampCheck?: (stamp: Stamp) => boolean): Promise<Stamp>
 ```
 
 - `verifyCredential` - pass in a VerifiableCredentail and get back a boolean
-```
+```typescript
 PassportVerifier.verifyCredential(credential: VerifiableCredential): Promise<boolean>
 ```
 

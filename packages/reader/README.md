@@ -1,5 +1,7 @@
 # Gitcoin Passport SDK: Reader
 
+Reads from any Gitcoin Passport stream (on Ceramic)
+
 ## Installation
 
 Add to your project...
@@ -51,16 +53,16 @@ The `PassportReader` instance exposes read-only methods to get the content of a 
 
 
 - `getGenesis` - pass in an Ethereum address and get back the did:pkh and genesis IDX streams
-```
+```typescript
 reader.getGenesis(address: string): Promise<CeramicGenesis | false>
 ```
 
 - `getPassport` - pass in an Ethereum address and get back a fully hydrated Passport record
-```
+```typescript
 reader.getPassport(address: string): Promise<CeramicPassport | CeramicCredentialPassport | false>
 ```
 
 - `getPassportStream` - pass in a Ceramic DID and get back a raw Passport stream record *note that this is a shallow copy of the passport (and needs to have its stamps hydrated)
-```
+```typescript
 reader.getPassportStream(address: string): Promise<CeramicPassport | false>
 ``` 
