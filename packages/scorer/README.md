@@ -26,7 +26,7 @@ yarn run build
 
 Firstly we need to import the library/bundle and construct a `PassportScorer` instance, passing in the scoring criteria, and optionally the ceramic node URL/networkId
 
-```
+```javascript
 // import as a module
 import PassportScorer from '@gitcoinco/passport-sdk-scorer';
 

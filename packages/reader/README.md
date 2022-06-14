@@ -26,7 +26,7 @@ yarn run build
 
 Firstly, we need to import the library/bundle and construct a `PassportReader` instance, passing in a ceramic node URL and a networkId
 
-```
+```js
 // add to your project as a module
 import PassportReader from '@gitcoinco/passport-sdk-reader'
 

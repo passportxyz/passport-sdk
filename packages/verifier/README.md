@@ -26,7 +26,7 @@ yarn run build
 
 Firstly we need to import the library/bundle and construct a `PassportVerifier` instance
 
-```
+```javascript
 // import as a module
 import PassportVerifier from '@gitcoinco/passport-sdk-verifier';
 

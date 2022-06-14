@@ -5,7 +5,7 @@ Create, read, and update Gitcoin Passport
 ## Basic Usage
 
 ```javascript
-  import {DID} from "dids";
+import {DID} from "dids";
 import {EthereumAuthProvider} from "@3id/connect";
 
 ...
