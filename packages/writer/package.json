@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@ceramicnetwork/http-client": "^2.0.0",
-    "@gitcoinco/passport-sdk-types": "^0.0.1",
+    "@gitcoinco/passport-sdk-types": "^0.1.1",
     "@glazed/datamodel": "^0.3.0",
     "@glazed/did-datastore": "^0.3.1",
     "@glazed/tile-loader": "^0.2.0",

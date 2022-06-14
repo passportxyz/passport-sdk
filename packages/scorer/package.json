@@ -9,9 +9,9 @@
     "dist"
   ],
   "dependencies": {
-    "@gitcoinco/passport-sdk-reader": "^0.0.1",
-    "@gitcoinco/passport-sdk-types": "^0.0.1",
-    "@gitcoinco/passport-sdk-verifier": "^0.0.1"
+    "@gitcoinco/passport-sdk-reader": "^0.1.1",
+    "@gitcoinco/passport-sdk-types": "^0.1.1",
+    "@gitcoinco/passport-sdk-verifier": "^0.1.1"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.17.12",
