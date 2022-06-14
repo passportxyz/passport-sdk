@@ -1,6 +1,6 @@
 {
   "name": "@gitcoinco/passport-sdk-reader",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "MIT",
   "main": "dist/reader.js",
   "types": "dist/reader.d.ts",

@@ -1,6 +1,6 @@
 {
   "name": "@gitcoinco/passport-sdk-verifier",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "license": "MIT",
   "main": "dist/verifier.js",
   "types": "dist/verifier.d.ts",
