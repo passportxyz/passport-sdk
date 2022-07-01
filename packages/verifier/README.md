@@ -26,7 +26,7 @@ yarn run build
 
 ## Usage
 
-Firstly we need to import the library/bundle and construct a `PassportVerifier` instance
+Firstly we need to import the library/bundle and construct a `PassportVerifier` instance.
 
 ```javascript
 // import as a module
@@ -43,17 +43,38 @@ const verifier = new PassportVerifier();
 
 // Verify a verifiableCredential 
 const verified = await verifier.verifyCredential({
-    ...
+  ...
 });
 
 ```
 
-<br/>
+**Browser Usage**
+
+If you are using this package in a browser, you may need to asynchronously load `@gitcoinco/passport-sdk-verifier`'`
+before using.
+
+```javascript
+// NextJS Example
+const [verifier, setVerifier] = useState();
+
+useEffect(() => {
+  const initVerifier = async () => {
+    // Dynamically load @gitcoinco/passport-sdk-verifier
+    const PassportVerifier = (await import("@gitcoinco/passport-sdk-verifier")).PassportVerifier;
+    setVerifier(new PassportVerifier("https://ceramic.staging.dpopp.gitcoin.co"));
+  };
+
+  initVerifier().then(() => {
+    console.log("Verifier inited :)");
+  });
+}, []);
+```
+
+### PassportVerifier
 
 The `PassportVerifier` instance exposes read-only methods to verify the content of a Gitcoin Passport:
 
 <br/>
-
 
 - `verifyPassport` - pass in a Passport and get back a Passport whose stamps contain a new field `verified: boolean`
 ```typescript

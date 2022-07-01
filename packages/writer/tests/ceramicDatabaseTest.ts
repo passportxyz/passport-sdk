@@ -10,7 +10,7 @@ let passportWriter: PassportWriter;
 
 beforeAll(async () => {
   const TEST_SEED = new Uint8Array([
-    6, 190, 125, 152, 83, 9, 111, 202, 6, 214, 218, 146, 104, 168, 166, 110, 202, 171, 42, 114, 73, 204, 214, 60, 112,
+    5, 190, 125, 152, 83, 9, 111, 202, 6, 214, 218, 146, 104, 168, 166, 110, 202, 171, 42, 114, 73, 204, 214, 60, 112,
     254, 173, 151, 170, 254, 250, 2,
   ]);
 
@@ -86,7 +86,7 @@ describe("when there is an existing passport without stamps for the given did", 
       "@context": ["https://www.w3.org/2018/credentials/v1"],
       type: ["VerifiableCredential"],
       credentialSubject: {
-        id: "did:key:z6Mkf64CtFAtmSnt2a3HrFyo1i1BzR2ftndjrHby1bqv8N5r", // did:key value for TEST_SEED (must match ceramicClients DID)
+        id: "did:key:z6MkhD7BBzwc3Kt3uQXsjfx5PeEpYFty9VB8gs5o2KXap652", // did:key value for TEST_SEED (must match ceramicClients DID)
         "@context": [
           {
             hash: "https://schema.org/Text",
@@ -137,7 +137,7 @@ describe("when there is an existing passport with stamps for the given did", () 
     "@context": ["https://www.w3.org/2018/credentials/v1"],
     type: ["VerifiableCredential"],
     credentialSubject: {
-      id: "did:key:z6Mkf64CtFAtmSnt2a3HrFyo1i1BzR2ftndjrHby1bqv8N5r", // did:key value for TEST_SEED (must match ceramicClients DID)
+      id: "did:key:z6MkhD7BBzwc3Kt3uQXsjfx5PeEpYFty9VB8gs5o2KXap652", // did:key value for TEST_SEED (must match ceramicClients DID)
       "@context": [
         {
           hash: "https://schema.org/Text",
