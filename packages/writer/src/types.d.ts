@@ -1,6 +1,8 @@
 import { VerifiableCredential } from "@gitcoinco/passport-sdk-types";
 import { Passport, Stamp, DID } from "@gitcoinco/passport-sdk-types";
 
+export type CeramicStreamId = string;
+
 export type CeramicStamp = {
   provider: string;
   credential: string;
@@ -9,6 +11,20 @@ export type CeramicPassport = {
   issuanceDate: string;
   expiryDate: string;
   stamps: CeramicStamp[];
+};
+
+export type ModelDefinition = {
+  schemas: {
+    Passport: string;
+    VerifiableCredential: string;
+  };
+  definitions: {
+    Passport: string;
+    VerifiableCredential: string;
+  };
+  tiles: {
+    [key: string]: string;
+  };
 };
 
 export type ModelTypes = {

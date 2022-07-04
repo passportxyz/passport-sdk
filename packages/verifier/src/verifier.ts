@@ -1,5 +1,5 @@
 // --- DIDKit tooling to verify credentials
-import * as DIDKit from "@spruceid/didkit-wasm";
+import * as DIDKit from "@spruceid/didkit-wasm/didkit_wasm";
 
 // --- Passport SDK Packages
 import { PassportReader } from "@gitcoinco/passport-sdk-reader";
@@ -16,6 +16,8 @@ export class PassportVerifier {
   }
 
   async init(): Promise<void> {
+    // webpacks `experiments.asyncWebAssembly=true` option imports the wasm asynchronously but typescript
+    // doesn't recognise the import as a Promise, so we wrap it in a Promise and resolve before using...
     await new Promise((resolve) => resolve(DIDKit)).then(
       async (didkit: { default: Promise<DIDKitLib> } | DIDKitLib) => {
         if (didkit.default) {
@@ -67,15 +69,15 @@ export class PassportVerifier {
       // extract the stamps address
       const stampAddress = stamp.credential.credentialSubject.id.replace("did:pkh:eip155:1:", "").toLowerCase();
 
-      // add verification stemp for the given address
+      // check the Passport address matches the credentialSubject address
       stamp.verified = stampAddress !== address.toLowerCase() ? false : stamp.verified;
 
-      // carryout additional verification check
+      // carry-out any additional verification check
       if (stamp.verified && additionalStampChecks) {
         stamp.verified = !additionalStampChecks(stamp) ? false : stamp.verified;
       }
 
-      // finally verifiy the credential verifies
+      // finally verify that the credential verifies with DIDKit
       if (stamp.verified) {
         stamp.verified = await this.verifyCredential(stamp.credential);
       }
@@ -93,7 +95,7 @@ export class PassportVerifier {
     // extract expirationDate
     const { expirationDate, proof } = credential;
 
-    // check that the credential is still valid
+    // check that the credential is still valid (not expired)
     if (new Date(expirationDate) > new Date()) {
       try {
         // parse the result of attempting to verify

@@ -1,9 +1,10 @@
 {
   "name": "@gitcoinco/passport-sdk-writer",
   "version": "0.1.1",
-  "license": "agpl-3.0",
+  "license": "AGPL-3.0",
   "homepage": "https://github.com/gitcoinco/passport-sdk/tree/main/packages/writer",
   "type": "module",
+  "sideEffects": true,
   "main": "dist/esm/src/index.js",
   "types": "dist/esm/src/types.d.js",
   "directories": {
@@ -23,8 +24,11 @@
     "lint": "tsc --noEmit && eslint --ext .ts ./src",
     "ceramic": "ceramic daemon",
     "prebuild": "rimraf dist",
-    "build": "tsc && node_modules/.bin/webpack --config webpack.config.cjs --mode=production",
-    "test": "yarn build && yarn node --experimental-vm-modules $(yarn bin jest) -c jest.integration.config.cjs"
+    "prewebpack": "rimraf dist",
+    "prepublish": "yarn run webpack",
+    "build": "tsc",
+    "webpack": "tsc && node_modules/.bin/webpack --config webpack.config.cjs --mode=development",
+    "test": "tsc && yarn node --experimental-vm-modules $(yarn bin jest) -c jest.config.cjs"
   },
   "dependencies": {
     "@ceramicnetwork/http-client": "^2.0.0",

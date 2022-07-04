@@ -21,7 +21,7 @@ yarn install
 Build...
 
 ```bash
-yarn run build
+yarn run webpack
 ```
 
 ## Basic Usage
@@ -200,8 +200,18 @@ import * as DIDKit from "@spruceid/didkit-wasm-node";
 const key = process.env.ISSUER_KEY || DIDKit.generateEd25519Key();
 
 // Keeping track of the hashing mechanism (algo + content)
-export const VERSION = "v0.0.0";
+const VERSION = "v0.0.0";
 
+// utility to create an ordered array of the given input (of the form [[key:string, value:string], ...])
+const objToSortedArray = (obj: { [k: string]: string }): string[][] => {
+  const keys: string[] = Object.keys(obj).sort();
+  return keys.reduce((out: string[][], key: string) => {
+    out.push([key, obj[key]]);
+    return out;
+  }, [] as string[][]);
+};
+
+// construct and issue a VerifiableCredential via DIDKit
 const issueCredential = async (
   subjectAddress: string,
   provider: string,
@@ -264,7 +274,7 @@ const issueCredential = async (
 
 const exampleVerifiableCredential = issueCredential(
   "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045",
-  "Example Passport Writer",
+  "Example-Passport-Writer-Provider",
   {myRecord: "my value"},
   600
 )

@@ -21,7 +21,7 @@ yarn install
 Build...
 
 ```bash
-yarn run build
+yarn run webpack
 ```
 
 ## Basic Usage
@@ -30,7 +30,7 @@ Firstly, we need to import the library/bundle and construct a `PassportVerifier`
 
 ```javascript
 // import as a module
-import PassportVerifier from '@gitcoinco/passport-sdk-verifier';
+import PassportVerifier from "@gitcoinco/passport-sdk-verifier";
 
 
 // or import the bundle
@@ -41,10 +41,8 @@ import PassportVerifier from '@gitcoinco/passport-sdk-verifier';
 // create a new instance pointing at the community clay node on mainnet along with the criteria we wish to score against
 const verifier = new PassportVerifier();
 
-// Verify a verifiableCredential 
-const verified = await verifier.verifyCredential({
-  ...
-});
+// Verify all Stamps held within a Passport
+const passport = await verifier.verifyPassport("0x0...");
 
 ```
 
@@ -76,7 +74,8 @@ The `PassportVerifier` instance exposes read-only methods to verify the content 
 
 <br/>
 
-- `verifyPassport` - pass in a Passport and get back a Passport whose stamps contain a new field `verified: boolean`
+
+- `verifyPassport` - pass in an ethereum address and get back a Passport where each stamps contains a `verified: boolean` field
 ```typescript
 PassportVerifier.verifyPassport(address: string, passport?: Passport, additionalStampCheck?: (stamp: Stamp) => boolean): Promise<Passport>
 ```

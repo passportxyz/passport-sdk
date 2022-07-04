@@ -1,10 +1,11 @@
 {
   "name": "@gitcoinco/passport-sdk-types",
   "version": "0.1.1",
-  "license": "agpl-3.0",
+  "license": "AGPL-3.0",
   "homepage": "https://github.com/gitcoinco/passport-sdk/tree/main/packages/types",
   "types": "src/index.d.ts",
   "scripts": {
+    "prepublish": "yarn run build",
     "build": "tsc -b .",
     "clean": "rimraf dist *.tsbuildinfo",
     "lint": "tsc --noEmit && eslint --ext .ts,.js,.tsx .",

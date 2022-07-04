@@ -21,7 +21,7 @@ yarn install
 Build...
 
 ```bash
-yarn run build
+yarn run webpack
 ```
 
 ## Basic Usage
@@ -30,7 +30,7 @@ Firstly, we need to import the library/bundle and construct a `PassportScorer` i
 
 ```javascript
 // import as a module
-import PassportScorer from '@gitcoinco/passport-sdk-scorer';
+import PassportScorer from "@gitcoinco/passport-sdk-scorer";
 
 
 // or import the bundle
@@ -38,17 +38,17 @@ import PassportScorer from '@gitcoinco/passport-sdk-scorer';
 
 ...
 
-// create a new instance pointing at the community clay node on mainnet along with the criteria we wish to score against
+// create a new instance defining the criteria we wish to score against
 const scorer = new PassportScorer([
     {
-        provider: 'BrightID',
-        issuer: 'did:key:z6MkghvGHLobLEdj1bgRLhS4LPGJAvbMA1tn2zcRyqmYU5LC',
+        provider: "BrightID",
+        issuer: "did:key:z6MkghvGHLobLEdj1bgRLhS4LPGJAvbMA1tn2zcRyqmYU5LC",
         score: 0.5
     }
-], 'https://ceramic.passport-iam.gitcoin.co', '1');
+]);
 
-// Get the score for a specific address
-const score = await scorer.getScore('0x0...');
+// get the score for a specific address
+const score = await scorer.getScore("0x0...");
 
 ```
 

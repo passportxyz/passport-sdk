@@ -18,7 +18,14 @@ module.exports = [{
     rules: [
       { 
         test: /.ts$/, 
-        use: 'ts-loader' 
+        loader: 'ts-loader', 
+        options: { 
+          allowTsInNodeModules: true 
+        },
+        exclude: /\.d\.ts$/
+      }, {
+        test: /\.d\.ts$/,
+        loader: 'ignore-loader'
       }, {
         test: /\.wasm$/,
         type: 'webassembly/async'

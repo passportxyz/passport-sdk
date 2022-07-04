@@ -8,25 +8,22 @@ module.exports = [{
     filename: 'writer.bundle.js',
     library: 'PassportWriter',
     libraryExport: 'PassportWriter',
-    libraryTarget: 'var'
+    libraryTarget: 'commonjs2',
   },
   resolve: {
     extensions: ['.ts', '.d.ts', '.js', '.json']
   },
   module: {
     rules: [
-      { 
-        test: /.ts$/, 
-        loader: 'ts-loader', 
-        options: { 
-          allowTsInNodeModules: true 
-        },
-        exclude: /\.d\.ts$/
-      },
       {
         test: /\.d\.ts$/,
         loader: 'ignore-loader'
       },
+      { 
+        test: /.tsx?$/, 
+        loader: 'ts-loader', 
+        exclude: /node_modules|\.d\.ts$/
+      }
     ]
   },
 }];

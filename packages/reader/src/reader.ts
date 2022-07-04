@@ -1,64 +1,28 @@
-// ---- Tulons exposes a simple interface to read from Ceramic
+// --- Tulons exposes a simple interface to read from Ceramic
 import { CeramicGenesis, Tulons } from "tulons";
 
-// ---- Define Typings for dPassport
-export type CeramicStreams = Record<string, string | false>;
+// --- Typings for Passport
+import { Passport } from "../../types/src";
 
-// Raw Stamp stream as pulled from Ceramic
-export type CeramicStampStream = {
+// --- Typings for raw Ceramic content
+export type CeramicStreams = Record<string, string | false>;
+export type CeramicStamp = {
   provider: string;
   credential: string;
 };
-// Hydrated Stamp stream
-export type CeramicStampRecord = {
-  provider: string;
-  credential: VerifiableCredential;
-};
-
-// Raw Passport stream as pulled from Ceramic
-export type CeramicPassportStream = {
+export type CeramicPassport = {
   issuanceDate: string;
   expiryDate: string;
-  stamps: CeramicStampStream[];
-};
-// Hydrated Passport stream
-export type CeramicPassportRecord = {
-  issuanceDate: string;
-  expiryDate: string;
-  stamps: CeramicStampRecord[];
+  stamps: CeramicStamp[];
 };
 
-// Each Stamp holds a VerifiableCredential that describes the authentication method being attested to
-export type VerifiableCredential = {
-  "@context": string[];
-  type: string[];
-  credentialSubject: {
-    id: string;
-    "@context": { [key: string]: string }[];
-    hash?: string;
-    provider?: string;
-    address?: string;
-    challenge?: string;
-  };
-  issuer: string;
-  issuanceDate: string;
-  expirationDate: string;
-  proof: {
-    type: string;
-    proofPurpose: string;
-    verificationMethod: string;
-    created: string;
-    jws: string;
-  };
-};
-
-// ---- Define PassportReader class (Returns Passport/Account data via Tulons)
+// --- Define PassportReader class (Returns Passport data via Tulons)
 export class PassportReader {
   _tulons: Tulons;
 
   _ceramic_gitcoin_passport_stream_id: string;
 
-  constructor(url?: string, network?: string | number) {
+  constructor(url = "https://ceramic.passport-iam.gitcoin.co", network = "1") {
     // create a tulons instance
     this._tulons = new Tulons(url, network);
     // ceramic definition keys to get streamIds from genesis record
@@ -82,14 +46,12 @@ export class PassportReader {
   async getPassport(
     address: string,
     streams?: CeramicStreams
-  ): Promise<CeramicPassportStream | CeramicPassportRecord | false> {
+  ): Promise<CeramicPassport | Passport | false> {
     const passport = await this.getPassportStream(address, streams);
 
     // hydrate the ceramic:// uris in the passport
     if (passport) {
-      return (await this._tulons.getHydrated(
-        passport
-      )) as CeramicPassportRecord;
+      return (await this._tulons.getHydrated(passport)) as Passport;
     }
 
     return passport;
@@ -98,8 +60,8 @@ export class PassportReader {
   async getPassportStream(
     address: string,
     streams?: CeramicStreams
-  ): Promise<CeramicPassportStream | false> {
-    let passport: CeramicPassportStream | false;
+  ): Promise<CeramicPassport | false> {
+    let passport: CeramicPassport | false;
 
     try {
       // pull pointer from did to passport stream
@@ -115,7 +77,7 @@ export class PassportReader {
       // pull the passport from the discovered stream
       passport = (await this._tulons.getStream(
         streams[this._ceramic_gitcoin_passport_stream_id] as string
-      )) as CeramicPassportStream;
+      )) as CeramicPassport;
     } catch {
       passport = false;
     }

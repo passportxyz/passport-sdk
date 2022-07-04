@@ -5,7 +5,7 @@ import { PassportVerifier } from "@gitcoinco/passport-sdk-verifier";
 // --- Types
 import { Passport, Stamp } from "@gitcoinco/passport-sdk-types";
 
-type Criteria = {
+export type Criteria = {
   provider: string;
   issuer: string;
   score: number;
