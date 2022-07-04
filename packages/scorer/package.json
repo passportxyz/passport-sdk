@@ -1,6 +1,6 @@
 {
   "name": "@gitcoinco/passport-sdk-scorer",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "AGPL-3.0",
   "homepage": "https://github.com/gitcoinco/passport-sdk/tree/main/packages/scorer",
   "main": "dist/scorer.js",
@@ -9,9 +9,9 @@
     "dist"
   ],
   "dependencies": {
-    "@gitcoinco/passport-sdk-reader": "^0.1.1",
-    "@gitcoinco/passport-sdk-types": "^0.1.1",
-    "@gitcoinco/passport-sdk-verifier": "^0.1.1"
+    "@gitcoinco/passport-sdk-reader": "^0.1.2",
+    "@gitcoinco/passport-sdk-types": "^0.1.2",
+    "@gitcoinco/passport-sdk-verifier": "^0.1.2"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.17.12",
