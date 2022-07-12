@@ -9,10 +9,7 @@ let testDID: DID;
 let passportWriter: PassportWriter;
 
 beforeAll(async () => {
-  const TEST_SEED = new Uint8Array([
-    5, 190, 125, 152, 83, 9, 111, 202, 6, 214, 218, 146, 104, 168, 166, 110, 202, 171, 42, 114, 73, 204, 214, 60, 112,
-    254, 173, 151, 170, 254, 250, 2,
-  ]);
+  const TEST_SEED = Uint8Array.from({ length: 32 }, () => Math.floor(Math.random() * 256));
 
   // Create and authenticate the DID
   testDID = new DID({
@@ -86,7 +83,7 @@ describe("when there is an existing passport without stamps for the given did", 
       "@context": ["https://www.w3.org/2018/credentials/v1"],
       type: ["VerifiableCredential"],
       credentialSubject: {
-        id: "did:key:z6MkhD7BBzwc3Kt3uQXsjfx5PeEpYFty9VB8gs5o2KXap652", // did:key value for TEST_SEED (must match ceramicClients DID)
+        id: `${passportWriter.did}`,
         "@context": [
           {
             hash: "https://schema.org/Text",
@@ -137,7 +134,7 @@ describe("when there is an existing passport with stamps for the given did", () 
     "@context": ["https://www.w3.org/2018/credentials/v1"],
     type: ["VerifiableCredential"],
     credentialSubject: {
-      id: "did:key:z6MkhD7BBzwc3Kt3uQXsjfx5PeEpYFty9VB8gs5o2KXap652", // did:key value for TEST_SEED (must match ceramicClients DID)
+      id: "",
       "@context": [
         {
           hash: "https://schema.org/Text",
@@ -171,6 +168,8 @@ describe("when there is an existing passport with stamps for the given did", () 
 
   let existingPassportStreamID;
   beforeEach(async () => {
+    // sets credential.credentialSubject.id at runtime
+    credential.credentialSubject.id = `${passportWriter.did}`;
     // create a tile for verifiable credential issued from iam server
     const ensStampTile = await passportWriter.model.createTile("VerifiableCredential", credential);
     // add ENS stamp provider and streamId to passport stamps array
