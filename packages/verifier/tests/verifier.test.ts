@@ -63,7 +63,7 @@ describe("Passport SDK Verifier", function () {
     // mock the verify procedure to return a verified stamp
     const mockGetPassport = jest.fn();
     mockGetPassport.mockReturnValueOnce(passport);
-    verifier._reader.getPassport = mockGetPassport;  
+    verifier._reader.getPassport = mockGetPassport;
 
     // verify the passport
     const verifiedPassport = await verifier.verifyPassport("0x0...") as Passport;
@@ -86,7 +86,7 @@ describe("Passport SDK Verifier", function () {
 
     // check verifyCredential was called
     expect(verifier._DIDKit.verifyCredential).toBeCalled();
-    
+
     // check that the stamp was marked as verified
     expect(verifiedStamp.verified).toBe(true);
   });
@@ -100,8 +100,76 @@ describe("Passport SDK Verifier", function () {
 
     // check verifyCredential was called
     expect(verifier._DIDKit.verifyCredential).toBeCalled();
-    
+
     // check that the credential verified
     expect(verified).toBe(true);
   });
 });
+
+describe("Passport SDK Verifier verifyStamp", function () {
+  it("Can verify Stamp if case does not match", async () => {
+    // create a new verifier with defaults
+    const verifier = new PassportVerifier();
+
+    // verify the stamp - note '0X0' instead of '0x0'
+    const verifiedStamp = await verifier.verifyStamp("0X0...", stamp) as unknown as Stamp;
+
+    // check verifyCredential was called
+    expect(verifier._DIDKit.verifyCredential).toBeCalled();
+
+    // check that the stamp was marked as verified
+    expect(verifiedStamp.verified).toBe(true);
+  });
+
+  it("Fails to verify stamp if stamp address does not match", async () => {
+    // create a new verifier with defaults
+    const verifier = new PassportVerifier();
+
+    const verifiedStamp = await verifier.verifyStamp("0xFAKE", stamp) as unknown as Stamp;
+
+    expect(verifiedStamp.verified).toBe(false);
+  });
+
+  it("Can verify Stamp when using a network id that is not Eth Mainnet", async () => {
+    const networkId = "999";
+    const newCredential = {
+      ...credential,
+      credentialSubject: {
+        ...credential.credentialSubject,
+        id: `did:pkh:eip155:${networkId}:0x0...`
+      }
+    }
+
+    const verifier = new PassportVerifier(
+      "https://ceramic.passport-iam.gitcoin.co",
+      networkId
+    );
+
+    const verifiedStamp = await verifier.verifyStamp("0x0...", {
+      ...stamp,
+      credential: newCredential
+    }) as unknown as Stamp;
+
+    expect(verifiedStamp.verified).toBe(true);
+  });
+
+  it("Fails to verify stamp if pkh network id does not match", async () => {
+    const newCredential = {
+      ...credential,
+      credentialSubject: {
+        ...credential.credentialSubject,
+        id: "did:pkh:eip155:999:0x0..."
+      }
+    }
+
+    // create a new verifier with defaults
+    const verifier = new PassportVerifier();
+
+    const verifiedStamp = await verifier.verifyStamp("0x0...", {
+      ...stamp,
+      credential: newCredential
+    }) as unknown as Stamp;
+
+    expect(verifiedStamp.verified).toBe(false);
+  });
+})
