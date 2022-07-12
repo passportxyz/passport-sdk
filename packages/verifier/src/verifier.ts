@@ -9,10 +9,12 @@ import { DIDKitLib, Passport, Stamp, VerifiableCredential } from "@gitcoinco/pas
 export class PassportVerifier {
   _DIDKit: DIDKitLib;
   _reader: PassportReader;
+  _network: string;
 
   constructor(url = "https://ceramic.passport-iam.gitcoin.co", network = "1") {
     // attach an instance of the reader
     this._reader = new PassportReader(url, network);
+    this._network = network;
   }
 
   async init(): Promise<void> {
@@ -67,7 +69,9 @@ export class PassportVerifier {
       stamp.verified = true;
 
       // extract the stamps address
-      const stampAddress = stamp.credential.credentialSubject.id.replace("did:pkh:eip155:1:", "").toLowerCase();
+      const stampAddress = stamp.credential.credentialSubject.id
+        .replace(`did:pkh:eip155:${this._network}:`, "")
+        .toLowerCase();
 
       // check the Passport address matches the credentialSubject address
       stamp.verified = stampAddress !== address.toLowerCase() ? false : stamp.verified;
