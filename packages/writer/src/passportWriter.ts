@@ -8,10 +8,19 @@ import { CeramicClient } from "@ceramicnetwork/http-client";
 import { DataModel } from "@glazed/datamodel";
 import { DIDDataStore } from "@glazed/did-datastore";
 import { TileLoader } from "@glazed/tile-loader";
+import { StreamID } from "@ceramicnetwork/streamid";
 
 // -- Types
 import type { DID, Passport, Stamp } from "@gitcoinco/passport-sdk-types";
-import type { CeramicStreamId, CeramicPassport, DataStorageBase, ModelDefinition, ModelTypes } from "./types";
+import type {
+  CeramicStreamId,
+  CeramicPassport,
+  CeramicStamp,
+  DataStorageBase,
+  ModelDefinition,
+  ModelTypes,
+  Logger,
+} from "./types";
 
 // -- Published Models on mainnet and testnet
 import TESTNET_PASSPORT_MODEL from "./passportModel.testnet.json";
@@ -31,11 +40,18 @@ export const getPassportModel = (network: "mainnet" | "testnet"): ModelDefinitio
 export class PassportWriter implements DataStorageBase {
   did: DID;
   loader: TileLoader;
-  ceramic: CeramicApi;
+  ceramicClient: CeramicApi;
   model: DataModel<ModelTypes>;
   store: DIDDataStore<ModelTypes>;
+  logger: Logger;
 
-  constructor(did?: CeramicDID, ceramicHost?: string, passportModel?: ModelDefinition) {
+  constructor(did?: CeramicDID, ceramicHost?: string, passportModel?: ModelDefinition, logger?: Logger) {
+    if (logger) {
+      this.logger = logger;
+    } else {
+      this.logger = console;
+    }
+
     // Create the Ceramic instance and inject the DID
     const ceramic = new CeramicClient(ceramicHost ?? CERAMIC_CLIENT_TESTNET_URL);
     ceramic.setDID(did).catch((e) => {
@@ -54,10 +70,11 @@ export class PassportWriter implements DataStorageBase {
     this.loader = loader;
     this.model = model;
     this.store = store;
-    this.ceramic = ceramic;
+    this.ceramicClient = ceramic;
   }
 
   async createPassport(): Promise<CeramicStreamId> {
+    this.logger.info(`create new passport for did ${this.did}`);
     const date = new Date();
     const newPassport: CeramicPassport = {
       issuanceDate: date.toISOString(),
@@ -68,20 +85,35 @@ export class PassportWriter implements DataStorageBase {
     return stream.toUrl();
   }
 
-  async getPassport(): Promise<Passport | undefined> {
+  async getPassport(): Promise<Passport | undefined | false> {
     try {
       const passport = await this.store.get("Passport");
-      if (!passport) return undefined;
+      const streamIDs: string[] = passport?.stamps.map((ceramicStamp: CeramicStamp) => {
+        return ceramicStamp.credential;
+      });
+
+      this.logger.info(`loaded passport for did ${this.did} => ${JSON.stringify(passport)}`);
+      if (!passport) return false;
+
       // `stamps` is stored as ceramic URLs - must load actual VC data from URL
       const stampsToLoad =
-        passport?.stamps.map(async (_stamp) => {
-          const { provider, credential } = _stamp;
-          const loadedCred = await this.loader.load(credential);
-          return {
-            provider,
-            credential: loadedCred.content,
-          } as Stamp;
+        passport?.stamps.map(async (_stamp, idx) => {
+          try {
+            const { provider, credential } = _stamp;
+            const loadedCred = await this.loader.load(credential);
+            return {
+              provider,
+              credential: loadedCred.content,
+              streamId: streamIDs[idx],
+            } as Stamp;
+          } catch (e) {
+            this.logger.error(
+              `Error when loading stamp with streamId ${streamIDs[idx]} for did  ${this.did}:  ${JSON.stringify(e)}`
+            );
+            return null;
+          }
         }) ?? [];
+
       const loadedStamps = await Promise.all(stampsToLoad);
 
       const parsePassport: Passport = {
@@ -90,9 +122,17 @@ export class PassportWriter implements DataStorageBase {
         stamps: loadedStamps,
       };
 
+      // try pinning passport
+      try {
+        const passportDoc = await this.store.getRecordDocument(this.model.getDefinitionID("Passport"));
+        await this.ceramicClient.pin.add(passportDoc.id);
+      } catch (e) {
+        this.logger.error(`Error when pinning passport for did  ${this.did}: ${JSON.stringify(e)}`);
+      }
+
       return parsePassport;
     } catch (e) {
-      console.error(e);
+      this.logger.error(`Error when loading passport for did  ${this.did}: ${JSON.stringify(e)}`);
       return undefined;
     }
   }
@@ -110,11 +150,57 @@ export class PassportWriter implements DataStorageBase {
       const newStamps = passport?.stamps.concat({ provider: stamp.provider, credential: newStampTile.id.toUrl() });
 
       // merge new stamps array to update stamps on the passport
-      await this.store.merge("Passport", { stamps: newStamps });
+      const streamId = await this.store.merge("Passport", { stamps: newStamps });
+
+      // try pinning passport
+      try {
+        await this.ceramicClient.pin.add(streamId);
+      } catch (e) {
+        this.logger.error(`Error when pinning passport for did  ${this.did}:  ${JSON.stringify(e)}`);
+      }
+    }
+  }
+
+  async deleteStamp(streamId: string): Promise<void> {
+    // get passport document from user did data store in ceramic
+    const passport = await this.store.get("Passport");
+
+    if (passport && passport.stamps) {
+      const itemIndex = passport.stamps.findIndex((stamp) => {
+        return stamp.credential === streamId;
+      });
+
+      if (itemIndex != -1) {
+        // Remove the stamp from the stamp list
+        passport.stamps.splice(itemIndex, 1);
+
+        // merge new stamps array to update stamps on the passport
+        const passportStreamId = await this.store.merge("Passport", { stamps: passport.stamps });
+
+        // try to unpin the stamp
+        const stampStreamId: StreamID = StreamID.fromString(streamId);
+        try {
+          await this.ceramicClient.pin.rm(stampStreamId);
+        } catch (e) {
+          this.logger.error(
+            `Error when unpinning stamp with id ${stampStreamId.toString()} for did  ${this.did}: ${JSON.stringify(e)}`
+          );
+        }
+
+        // try pinning passport
+        try {
+          await this.ceramicClient.pin.add(passportStreamId);
+        } catch (e) {
+          this.logger.error(`Error when pinning passport for did  ${this.did}:  ${JSON.stringify(e)}`);
+        }
+      } else {
+        this.logger.info(`unable to find stamp with stream id ${streamId} in passport`);
+      }
     }
   }
 
   async deletePassport(): Promise<void> {
+    this.logger.info(`deleting passport for did ${this.did}`);
     // Created for development purposes
     await this.store.remove("Passport");
   }
