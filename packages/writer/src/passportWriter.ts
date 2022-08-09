@@ -97,18 +97,18 @@ export class PassportWriter implements DataStorageBase {
 
       // `stamps` is stored as ceramic URLs - must load actual VC data from URL
       const stampsToLoad =
-        passport?.stamps.map(async (_stamp, idx) => {
+        passport?.stamps.map(async (_stamp) => {
+          const { provider, credential } = _stamp;
           try {
-            const { provider, credential } = _stamp;
             const loadedCred = await this.loader.load(credential);
             return {
               provider,
               credential: loadedCred.content,
-              streamId: streamIDs[idx],
+              streamId: credential,
             } as Stamp;
           } catch (e) {
             this.logger.error(
-              `Error when loading stamp with streamId ${streamIDs[idx]} for did  ${this.did}:  ${JSON.stringify(e)}`
+              `Error when loading stamp with streamId ${credential} for did  ${this.did}:  ${JSON.stringify(e)}`
             );
             return null;
           }
