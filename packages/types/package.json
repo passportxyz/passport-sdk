@@ -1,6 +1,6 @@
 {
   "name": "@gitcoinco/passport-sdk-types",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "license": "AGPL-3.0",
   "homepage": "https://github.com/gitcoinco/passport-sdk/tree/main/packages/types",
   "types": "src/index.d.ts",

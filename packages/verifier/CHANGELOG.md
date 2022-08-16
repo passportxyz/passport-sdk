@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/gitcoinco/passport-sdk/compare/@gitcoinco/passport-sdk-verifier@0.1.2...@gitcoinco/passport-sdk-verifier@0.2.0) (2022-08-16)
+
+
+### Features
+
+* **passport-sdk-verifier:** correctly verify stamps issued to non-Ethereum-Mainnet dids ([f8321d3](https://github.com/gitcoinco/passport-sdk/commit/f8321d349bbdd6828f7c2eba3b79af7e6f16e0f2)), closes [#10](https://github.com/gitcoinco/passport-sdk/issues/10)
+
+
+
+
+
 ## [0.1.2](https://github.com/gitcoinco/passport-sdk/compare/@gitcoinco/passport-sdk-verifier@0.1.1...@gitcoinco/passport-sdk-verifier@0.1.2) (2022-07-04)
 
 **Note:** Version bump only for package @gitcoinco/passport-sdk-verifier

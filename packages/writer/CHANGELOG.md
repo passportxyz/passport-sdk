@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/gitcoinco/passport-sdk/compare/@gitcoinco/passport-sdk-writer@0.1.2...@gitcoinco/passport-sdk-writer@0.2.0) (2022-08-16)
+
+
+### Features
+
+* **passport-sdk-writer:** update getPassport function in writer ([4e96ed6](https://github.com/gitcoinco/passport-sdk/commit/4e96ed6e57fd10778cbfcbb9ca03b43902d9653a))
+* **passport-sdk-writer:** Updates ceramic functions and aligns with CeramicDatabase Functions in database-client ([1aaf46d](https://github.com/gitcoinco/passport-sdk/commit/1aaf46dcaa5ca66de8b08be5c07cd78be8259de4)), closes [#327](https://github.com/gitcoinco/passport-sdk/issues/327)
+
+
+
+
+
 ## [0.1.2](https://github.com/gitcoinco/passport-sdk/compare/@gitcoinco/passport-sdk-writer@0.1.1...@gitcoinco/passport-sdk-writer@0.1.2) (2022-07-04)
 
 **Note:** Version bump only for package @gitcoinco/passport-sdk-writer
