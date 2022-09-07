@@ -10,7 +10,7 @@
   ],
   "dependencies": {
     "@gitcoinco/passport-sdk-types": "^0.2.0",
-    "tulons": "^0.0.6"
+    "tulons": "^0.0.7"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.17.12",

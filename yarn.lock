@@ -9153,10 +9153,10 @@ tsutils@^3.21.0:
   dependencies:
     tslib "^1.8.1"
 
-tulons@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/tulons/-/tulons-0.0.6.tgz#985ded0d1e3a8147654992ad666486ac1f4fa5e3"
-  integrity sha512-IFHKA9iNIR6evE9xmYR46BRTr05rAGrR/UMJ8bTmD7FY19kRm3gr7zTN/h9oDVumFiQ/ib9iJaT6dFAXaanMQw==
+tulons@^0.0.7:
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/tulons/-/tulons-0.0.7.tgz#31677402ab51dc51478d375f90df76ea2ca8cbb9"
+  integrity sha512-JyL9Vn4PPG2TTEJS35yqQgAMLd3IX9pFIlbiLmv47HuHTo2F3ihYg2yfMqde4hqGY1nGk77iJ/lvsTbAURJ8rg==
   dependencies:
     axios "^0.27.2"
 
