@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.1.4](https://github.com/gitcoinco/passport-sdk/compare/@gitcoinco/passport-sdk-reader@0.1.3...@gitcoinco/passport-sdk-reader@0.1.4) (2022-09-07)
+
+
+### Bug Fixes
+
+* **reader:** upgrades tulons to remove sync opt ([4a670f3](https://github.com/gitcoinco/passport-sdk/commit/4a670f3d1790b5348a39d68fbf9501cb8f1c4fc3))
+
+
+
+
+
 ## [0.1.3](https://github.com/gitcoinco/passport-sdk/compare/@gitcoinco/passport-sdk-reader@0.1.2...@gitcoinco/passport-sdk-reader@0.1.3) (2022-08-16)
 
 **Note:** Version bump only for package @gitcoinco/passport-sdk-reader

@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.1](https://github.com/gitcoinco/passport-sdk/compare/@gitcoinco/passport-sdk-verifier@0.2.0...@gitcoinco/passport-sdk-verifier@0.2.1) (2022-09-07)
+
+**Note:** Version bump only for package @gitcoinco/passport-sdk-verifier
+
+
+
+
+
 # [0.2.0](https://github.com/gitcoinco/passport-sdk/compare/@gitcoinco/passport-sdk-verifier@0.1.2...@gitcoinco/passport-sdk-verifier@0.2.0) (2022-08-16)
 
 
