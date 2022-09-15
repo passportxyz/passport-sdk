@@ -8,7 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@gitcoinco/passport-sdk-verifier": "^0.1.1",
+    "@gitcoinco/passport-sdk-verifier": "^0.2.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
