@@ -4,6 +4,7 @@ import react, { useState , useEffect} from "react";
 import logo from "./GitcoinLogo.svg";
 import "./App.css";
 
+import * as wasmModule from '@gitcoinco/passport-sdk-verifier';
 
 function App() {
   const [addressInput, setAddressInput] = useState("");
@@ -14,8 +15,9 @@ function App() {
   useEffect(() => {
     const initVerifier = async () => {
       // Dynamically load @gitcoinco/passport-sdk-verifier
-      const PassportVerifier = (await import("@gitcoinco/passport-sdk-verifier")).PassportVerifier;
-      setVerifier(new PassportVerifier("https://ceramic.staging.dpopp.gitcoin.co"));
+      // const PassportVerifier = (await import("@gitcoinco/passport-sdk-verifier")).PassportVerifier;
+      const PassportVerifier = (await wasmModule).PassportVerifier;
+      setVerifier(new PassportVerifier("https://ceramic.passport-iam.gitcoin.co"));
     };
     initVerifier().then(() => {
       console.log("Verifier inited :)");
