@@ -2500,10 +2500,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@spruceid/didkit-wasm@^0.2.1":
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/@spruceid/didkit-wasm/-/didkit-wasm-0.2.1.tgz#c9cb67df962e568414e6d9946f8563056f263abe"
-  integrity sha512-Qi0ZVS2vNA6iVwOzfIdyVQSj1Q88DgV0HyjnQGZ84YsrjaxbCSPwyhZs3TBzUGKwvoyiGCvWohYnL0G3BsPEMQ==
+"@spruceid/didkit-wasm@0.3.0-alpha0":
+  version "0.3.0-alpha0"
+  resolved "https://registry.yarnpkg.com/@spruceid/didkit-wasm/-/didkit-wasm-0.3.0-alpha0.tgz#f31e2e027557c8c96c42dc134dcb41f931c9c50d"
+  integrity sha512-NKyw1MM3ZqFmL9WLbFR1l3XdVmukcmP4nV0aEaztBhxeFyEBS31lxdd2WE4tPAl83cUOhxJ+AfX2iZS5ES9rZw==
 
 "@stablelib/aead@^1.0.1":
   version "1.0.1"

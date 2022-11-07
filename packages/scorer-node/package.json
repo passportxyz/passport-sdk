@@ -1,17 +1,17 @@
 {
-  "name": "@gitcoinco/passport-sdk-verifier",
-  "version": "0.2.2",
+  "name": "@gitcoinco/passport-sdk-scorer-node",
+  "version": "0.1.5",
   "license": "AGPL-3.0",
-  "homepage": "https://github.com/gitcoinco/passport-sdk/tree/main/packages/verifier",
-  "main": "dist/verifier.js",
-  "types": "dist/verifier.d.ts",
+  "homepage": "https://github.com/gitcoinco/passport-sdk/tree/main/packages/scorer",
+  "main": "dist/scorer.js",
+  "types": "dist/scorer.d.ts",
   "files": [
     "dist"
   ],
   "dependencies": {
     "@gitcoinco/passport-sdk-reader": "^0.1.4",
     "@gitcoinco/passport-sdk-types": "^0.2.0",
-    "@spruceid/didkit-wasm": "0.3.0-alpha0"
+    "@gitcoinco/passport-sdk-verifier-node": "^0.2.2"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.17.12",

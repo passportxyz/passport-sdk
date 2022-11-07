@@ -11,7 +11,7 @@
   "dependencies": {
     "@gitcoinco/passport-sdk-reader": "^0.1.4",
     "@gitcoinco/passport-sdk-types": "^0.2.0",
-    "@spruceid/didkit-wasm": "0.3.0-alpha0"
+    "@spruceid/didkit-wasm-node": "^0.2.1"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.17.12",

@@ -5,7 +5,7 @@ import { Passport, PROVIDER_ID, Stamp } from "@gitcoinco/passport-sdk-types";
 import { PassportVerifier } from "../src/verifier";
 
 // Mock DIDKit wasm so that we don't import the browser wasm build into node context
-jest.mock("@spruceid/didkit-wasm", () => {
+jest.mock("@spruceid/didkit-wasm/didkit-wasm-node", () => {
   return import("../__mocks__/didkit.js").then((module) => {
     jest.resetModules();
     return module;
