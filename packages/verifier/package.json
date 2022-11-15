@@ -1,6 +1,6 @@
 {
   "name": "@gitcoinco/passport-sdk-verifier",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "license": "AGPL-3.0",
   "homepage": "https://github.com/gitcoinco/passport-sdk/tree/main/packages/verifier",
   "main": "dist/verifier.js",
@@ -11,7 +11,7 @@
   "dependencies": {
     "@gitcoinco/passport-sdk-reader": "^0.1.4",
     "@gitcoinco/passport-sdk-types": "^0.2.0",
-    "@spruceid/didkit-wasm": "^0.2.1"
+    "@spruceid/didkit-wasm": "0.3.0-alpha0"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.17.12",

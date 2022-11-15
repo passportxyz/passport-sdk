@@ -1,5 +1,5 @@
 // --- DIDKit tooling to verify credentials
-import * as DIDKit from "@spruceid/didkit-wasm/didkit_wasm";
+import * as DIDKit from "@spruceid/didkit-wasm";
 
 // --- Passport SDK Packages
 import { PassportReader } from "@gitcoinco/passport-sdk-reader";

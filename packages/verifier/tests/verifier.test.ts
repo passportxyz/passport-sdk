@@ -5,7 +5,7 @@ import { Passport, PROVIDER_ID, Stamp } from "@gitcoinco/passport-sdk-types";
 import { PassportVerifier } from "../src/verifier";
 
 // Mock DIDKit wasm so that we don't import the browser wasm build into node context
-jest.mock("@spruceid/didkit-wasm/didkit_wasm", () => {
+jest.mock("@spruceid/didkit-wasm", () => {
   return import("../__mocks__/didkit.js").then((module) => {
     jest.resetModules();
     return module;
@@ -19,40 +19,42 @@ expiryDate.setDate(expiryDate.getDate() + 1);
 // Mock VerifiableCredential
 const credential = {
   "@context": ["https://www.w3.org/2018/credentials/v1"],
-  "issuanceDate": new Date().toString(),
-  "expirationDate": expiryDate.toString(),
-  "issuer": "test-issuer",
-  "type": ["VerifiableCredential"],
-  "credentialSubject": {
-    "@context": [{
-      "hash": "https://schema.org/Text",
-      "provider": "https://schema.org/Text",
-    }],
-    "id": "did:pkh:eip155:1:0x0...",
-    "provider": "test-stamp",
-    "hash": "v0.0.0:hash-value"
+  issuanceDate: new Date().toString(),
+  expirationDate: expiryDate.toString(),
+  issuer: "test-issuer",
+  type: ["VerifiableCredential"],
+  credentialSubject: {
+    "@context": [
+      {
+        hash: "https://schema.org/Text",
+        provider: "https://schema.org/Text",
+      },
+    ],
+    id: "did:pkh:eip155:1:0x0...",
+    provider: "test-stamp",
+    hash: "v0.0.0:hash-value",
   },
   // proof is added by DIDKit when issuing the credential
-  "proof": {
-    "type": "",
-    "proofPurpose": "assertionMethod",
-    "verificationMethod": "",
-    "created": "",
-    "jws": "",
-  }
+  proof: {
+    type: "",
+    proofPurpose: "assertionMethod",
+    verificationMethod: "",
+    created: "",
+    jws: "",
+  },
 };
 
 // Mock Stamp
 const stamp = {
-  "provider": "test-stamp" as unknown as PROVIDER_ID,
-  "credential": credential
+  provider: "test-stamp" as unknown as PROVIDER_ID,
+  credential: credential,
 };
 
 // Mock Passport
 const passport = {
-  "issuanceDate": new Date(),
-  "expiryDate": expiryDate,
-  "stamps": [stamp]
+  issuanceDate: new Date(),
+  expiryDate: expiryDate,
+  stamps: [stamp],
 };
 
 describe("Passport SDK Verifier", function () {
@@ -66,7 +68,7 @@ describe("Passport SDK Verifier", function () {
     verifier._reader.getPassport = mockGetPassport;
 
     // verify the passport
-    const verifiedPassport = await verifier.verifyPassport("0x0...") as Passport;
+    const verifiedPassport = (await verifier.verifyPassport("0x0...")) as Passport;
 
     // check passport was loaded via reader
     expect(mockGetPassport).toBeCalled();
@@ -82,7 +84,7 @@ describe("Passport SDK Verifier", function () {
     const verifier = new PassportVerifier();
 
     // verify the stamp
-    const verifiedStamp = await verifier.verifyStamp("0x0...", stamp) as unknown as Stamp;
+    const verifiedStamp = (await verifier.verifyStamp("0x0...", stamp)) as unknown as Stamp;
 
     // check verifyCredential was called
     expect(verifier._DIDKit.verifyCredential).toBeCalled();
@@ -112,7 +114,7 @@ describe("Passport SDK Verifier verifyStamp", function () {
     const verifier = new PassportVerifier();
 
     // verify the stamp - note '0X0' instead of '0x0'
-    const verifiedStamp = await verifier.verifyStamp("0X0...", stamp) as unknown as Stamp;
+    const verifiedStamp = (await verifier.verifyStamp("0X0...", stamp)) as unknown as Stamp;
 
     // check verifyCredential was called
     expect(verifier._DIDKit.verifyCredential).toBeCalled();
@@ -125,7 +127,7 @@ describe("Passport SDK Verifier verifyStamp", function () {
     // create a new verifier with defaults
     const verifier = new PassportVerifier();
 
-    const verifiedStamp = await verifier.verifyStamp("0xFAKE", stamp) as unknown as Stamp;
+    const verifiedStamp = (await verifier.verifyStamp("0xFAKE", stamp)) as unknown as Stamp;
 
     expect(verifiedStamp.verified).toBe(false);
   });
@@ -136,19 +138,16 @@ describe("Passport SDK Verifier verifyStamp", function () {
       ...credential,
       credentialSubject: {
         ...credential.credentialSubject,
-        id: `did:pkh:eip155:${networkId}:0x0...`
-      }
-    }
+        id: `did:pkh:eip155:${networkId}:0x0...`,
+      },
+    };
 
-    const verifier = new PassportVerifier(
-      "https://ceramic.passport-iam.gitcoin.co",
-      networkId
-    );
+    const verifier = new PassportVerifier("https://ceramic.passport-iam.gitcoin.co", networkId);
 
-    const verifiedStamp = await verifier.verifyStamp("0x0...", {
+    const verifiedStamp = (await verifier.verifyStamp("0x0...", {
       ...stamp,
-      credential: newCredential
-    }) as unknown as Stamp;
+      credential: newCredential,
+    })) as unknown as Stamp;
 
     expect(verifiedStamp.verified).toBe(true);
   });
@@ -158,18 +157,18 @@ describe("Passport SDK Verifier verifyStamp", function () {
       ...credential,
       credentialSubject: {
         ...credential.credentialSubject,
-        id: "did:pkh:eip155:999:0x0..."
-      }
-    }
+        id: "did:pkh:eip155:999:0x0...",
+      },
+    };
 
     // create a new verifier with defaults
     const verifier = new PassportVerifier();
 
-    const verifiedStamp = await verifier.verifyStamp("0x0...", {
+    const verifiedStamp = (await verifier.verifyStamp("0x0...", {
       ...stamp,
-      credential: newCredential
-    }) as unknown as Stamp;
+      credential: newCredential,
+    })) as unknown as Stamp;
 
     expect(verifiedStamp.verified).toBe(false);
   });
-})
+});
