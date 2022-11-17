@@ -1,20 +1,29 @@
 // @ts-ignore
-import react, { useState } from "react";
+import react, { useState , useEffect} from "react";
 // @ts-ignore
 import logo from "./GitcoinLogo.svg";
 import "./App.css";
 
-// --- sdk import
-import { PassportVerifier } from "@gitcoinco/passport-sdk-verifier";
+import * as wasmModule from '@gitcoinco/passport-sdk-verifier';
 
 function App() {
   const [addressInput, setAddressInput] = useState("");
   const [passport, setPassport] = useState({});
 
-  // override default ceramic node url. Default is the passport-iam prod ceramic node.
-  const verifier = new PassportVerifier(
-    "https://ceramic.staging.dpopp.gitcoin.co"
-  );
+  const [verifier, setVerifier] = useState();
+
+  useEffect(() => {
+    const initVerifier = async () => {
+      // Dynamically load @gitcoinco/passport-sdk-verifier
+      // const PassportVerifier = (await import("@gitcoinco/passport-sdk-verifier")).PassportVerifier;
+      const PassportVerifier = (await wasmModule).PassportVerifier;
+      setVerifier(new PassportVerifier("https://ceramic.passport-iam.gitcoin.co"));
+    };
+    initVerifier().then(() => {
+      console.log("Verifier inited :)");
+    });
+  }, []);
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
