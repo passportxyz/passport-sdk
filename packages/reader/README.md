@@ -30,7 +30,7 @@ Firstly, we need to import the library/bundle and construct a `PassportReader` i
 
 ```js
 // add to your project as a module
-import PassportReader from "@gitcoinco/passport-sdk-reader"
+import { PassportReader } from "@gitcoinco/passport-sdk-reader"
 
 // or import the bundle
 <script src="./dist/reader.bundle.js" type="script/javascript"/>
