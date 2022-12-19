@@ -5,7 +5,8 @@ import logo from "./GitcoinLogo.svg";
 import "./App.css";
 
 // --- sdk import
-import { PassportReader } from "@gitcoinco/passport-sdk-reader";
+import { PassportReader } from "../../../packages/reader";
+import React from "react";
 
 function App() {
   const [addressInput, setAddressInput] = useState("");
