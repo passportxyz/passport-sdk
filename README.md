@@ -1,4 +1,6 @@
 # Gitcoin Passport SDK
+🚨🚨 **Warning** The passport SDK is now deprecated in favour of the Gitcoin Passport API. 🚨🚨
+Please visit the [Passport docs](https://docs.passport.gitcoin.co) for details.
 
 ## Intro
 
